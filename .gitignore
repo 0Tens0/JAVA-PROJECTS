@@ -1,0 +1,4 @@
+*.class
+chat_history.txt
+*.log
+.DS_Store
