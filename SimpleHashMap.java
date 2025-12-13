@@ -33,8 +33,7 @@ public class SimpleHashMap<K, V> {
     }
     
     private int hash(K key) {
-        int hash = key.hashCode();
-        return ((hash % capacity) + capacity) % capacity;
+        return Math.floorMod(key.hashCode(), capacity);
     }
     
     /**
