@@ -21,6 +21,7 @@ public class ChatServer {
     private MessageQueue messageQueue;
     private boolean running;
     private SimpleDateFormat dateFormat;
+    private MessageProcessor messageProcessor;
     
     public ChatServer() {
         clients = new SimpleHashMap<>();
@@ -39,7 +40,8 @@ public class ChatServer {
             System.out.println("Chat Server started on port " + PORT);
             
             // Start message processor thread
-            new Thread(new MessageProcessor()).start();
+            messageProcessor = new MessageProcessor();
+            new Thread(messageProcessor).start();
             
             // Accept client connections
             while (running) {
@@ -75,26 +77,14 @@ public class ChatServer {
     }
     
     /**
-     * Broadcast message to all clients
+     * Broadcast message to all clients (enqueues for processing)
      */
     private void broadcast(String message, String sender) {
         String timestamp = dateFormat.format(new Date());
         String formattedMessage = "[" + timestamp + "] " + message;
         
-        // Add to message queue
+        // Add to message queue for FIFO processing
         messageQueue.enqueue(formattedMessage);
-        
-        // Send to all clients
-        List<String> usernames = clients.keySet();
-        for (String username : usernames) {
-            ClientHandler handler = clients.get(username);
-            if (handler != null) {
-                handler.sendMessage(formattedMessage);
-            }
-        }
-        
-        // Save to file
-        saveToHistory(formattedMessage);
     }
     
     /**
@@ -128,10 +118,7 @@ public class ChatServer {
     /**
      * Message processor thread - processes messages from the queue.
      * This thread ensures FIFO message ordering by dequeuing messages
-     * in the order they were added. The actual broadcasting happens
-     * in the broadcast() method, but the queue ensures that messages
-     * are persisted to chat history in the correct order even under
-     * high concurrency.
+     * in the order they were added and then broadcasting them to all clients.
      */
     private class MessageProcessor implements Runnable {
         @Override
@@ -139,12 +126,20 @@ public class ChatServer {
             System.out.println("Message processor thread started");
             while (running) {
                 try {
-                    // Dequeue ensures FIFO ordering of messages
+                    // Dequeue message (blocks if queue is empty)
                     String message = messageQueue.dequeue();
-                    if (message != null) {
-                        // Message has already been broadcast and saved to history
-                        // This dequeue operation maintains the queue state
-                        // and could be used for additional processing if needed
+                    if (message != null && running) {
+                        // Broadcast to all connected clients
+                        List<String> usernames = clients.keySet();
+                        for (String username : usernames) {
+                            ClientHandler handler = clients.get(username);
+                            if (handler != null) {
+                                handler.sendMessage(message);
+                            }
+                        }
+                        
+                        // Save to chat history file
+                        saveToHistory(message);
                     }
                 } catch (Exception e) {
                     if (running) {

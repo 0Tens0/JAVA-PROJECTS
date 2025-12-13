@@ -141,7 +141,7 @@ public class MergeSort {
             return list;
         }
         
-        String[] array = list.toArray(new String[0]);
+        String[] array = list.toArray(new String[list.size()]);
         sort(array);
         List<String> sortedList = new ArrayList<>();
         for (String s : array) {
