@@ -54,13 +54,6 @@ public class ChatClient {
             // Send username
             out.println(username);
             
-            // Check if username was accepted
-            String response = in.readLine();
-            if (response != null && response.contains("already taken")) {
-                disconnect();
-                return false;
-            }
-            
             connected = true;
             
             // Notify listener
@@ -69,6 +62,8 @@ public class ChatClient {
             }
             
             // Start listening for messages
+            // The server will either send "Username already taken" and disconnect,
+            // or start sending chat messages. The MessageReceiver will handle both cases.
             new Thread(new MessageReceiver()).start();
             
             return true;
@@ -140,6 +135,13 @@ public class ChatClient {
             try {
                 String message;
                 while (connected && (message = in.readLine()) != null) {
+                    // Check if username was rejected
+                    if (message.contains("already taken")) {
+                        System.err.println("Username rejected: " + message);
+                        connected = false;
+                        break;
+                    }
+                    
                     // Check if it's a user list update
                     if (message.startsWith("USERLIST:")) {
                         String userListStr = message.substring(9);

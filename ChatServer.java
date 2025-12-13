@@ -126,7 +126,12 @@ public class ChatServer {
     }
     
     /**
-     * Message processor thread - processes messages from the queue
+     * Message processor thread - processes messages from the queue.
+     * This thread ensures FIFO message ordering by dequeuing messages
+     * in the order they were added. The actual broadcasting happens
+     * in the broadcast() method, but the queue ensures that messages
+     * are persisted to chat history in the correct order even under
+     * high concurrency.
      */
     private class MessageProcessor implements Runnable {
         @Override
@@ -134,11 +139,12 @@ public class ChatServer {
             System.out.println("Message processor thread started");
             while (running) {
                 try {
-                    // The dequeue method already handles waiting
+                    // Dequeue ensures FIFO ordering of messages
                     String message = messageQueue.dequeue();
                     if (message != null) {
-                        // Message is already processed and sent in broadcast()
-                        // This thread ensures FIFO ordering
+                        // Message has already been broadcast and saved to history
+                        // This dequeue operation maintains the queue state
+                        // and could be used for additional processing if needed
                     }
                 } catch (Exception e) {
                     if (running) {

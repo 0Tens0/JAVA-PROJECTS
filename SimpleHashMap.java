@@ -116,7 +116,19 @@ public class SimpleHashMap<K, V> {
      * Check if key exists
      */
     public synchronized boolean containsKey(K key) {
-        return get(key) != null;
+        if (key == null) return false;
+        
+        int index = hash(key);
+        Entry<K, V> entry = table[index];
+        
+        while (entry != null) {
+            if (entry.key.equals(key)) {
+                return true;
+            }
+            entry = entry.next;
+        }
+        
+        return false;
     }
     
     /**
