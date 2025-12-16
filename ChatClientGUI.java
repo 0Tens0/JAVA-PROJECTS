@@ -44,12 +44,16 @@ public class ChatClientGUI extends JFrame {
      */
     private void loadChatHistory() {
         File historyFile = new File(CHAT_HISTORY_FILE);
-        if (!historyFile.exists()) {
-            messageArea.append("No previous chat history found.\n\n");
+        if (!historyFile.exists() || !historyFile.canRead()) {
+            if (!historyFile.exists()) {
+                messageArea.append("No previous chat history found.\n\n");
+            } else {
+                messageArea.append("Cannot read chat history file (permission denied).\n\n");
+            }
             return;
         }
         
-        try (BufferedReader reader = new BufferedReader(new FileReader(historyFile))) {
+        try (BufferedReader reader = new BufferedReader(new FileReader(historyFile, java.nio.charset.StandardCharsets.UTF_8))) {
             messageArea.append("=== Previous Chat History ===\n");
             String line;
             int count = 0;
