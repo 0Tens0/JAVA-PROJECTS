@@ -1,0 +1,6 @@
+101 , PASTA , Rs.150	,1,150
+103 , COLD DRINK , Rs.67	,1,67
+104 , COFFEE , Rs.50	,1,50
+
+Total is 267
+-----

@@ -1,0 +1,5 @@
+101 , Muhammad Waheed , 19 , Montotype Road , 03216564365 , m.waheed@gmail.com , Manager
+102 , Ammar Javed , 25 , Attimabbe Road , 03005642853 , ammarjaved@gmail.com , Waiter
+145 , Krishna Bharat , 22 , Lavelle Road , 7802569900 , bharat.krishna@gmail.com , Waiter
+104 , Nabeel Asiff , 25 , near Tariq road , 03019348904 , nabeell@gmail.com , Waiter
+120 , qwerty , 50 , qwerty , 03002362566 , qwerty@gmail.com , Waiter
