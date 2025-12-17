@@ -15,3 +15,10 @@ The Restaurant Management System is a comprehensive Java-based application with 
   - **Taking Orders:** Efficiently take and manage customer orders, with the ability to customize orders, specify quantities, and track order status.
 
   - **Sales Tracking:** Maintain a comprehensive record of sales, including order details, timestamps, and customer information for business analysis and reporting.
+
+
+
+
+
+
+
