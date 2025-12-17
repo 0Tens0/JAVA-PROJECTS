@@ -1,7 +1,9 @@
 
 ## Project Description
 
-The Restaurant Management System is a comprehensive Java-based application with a user-friendly Java Swing graphical user interface (GUI) designed to streamline and enhance the management of restaurant operations. This system provides a centralized platform for restaurant owners and managers to efficiently handle various aspects of their establishment, ensuring smooth day-to-day functioning and improved customer service.
+The Restaurant Management System is a comprehensive Java-based application with a user-friendly Java Swing graphical user interface (GUI) designed to streamline and enhance the 
+management of restaurant operations. This system provides a centralized platform for restaurant owners and managers to efficiently handle various aspects of their establishment, 
+ensuring smooth day-to-day functioning and improved customer service.
 
 ## Key Features include : 
 
@@ -15,6 +17,7 @@ The Restaurant Management System is a comprehensive Java-based application with 
   - **Taking Orders:** Efficiently take and manage customer orders, with the ability to customize orders, specify quantities, and track order status.
 
   - **Sales Tracking:** Maintain a comprehensive record of sales, including order details, timestamps, and customer information for business analysis and reporting.
+
 
 
 
